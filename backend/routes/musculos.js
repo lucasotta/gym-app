@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Musculo = require("../models/Musculo");
+const Musculo = require("../models/musculo");
 const auth = require("../middleware/auth");
 
 // GET /musculos
