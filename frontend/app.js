@@ -1,4 +1,4 @@
-const API = "https://registrogimnasio.netlify.app";
+const API = "https://gym-app-w75b.onrender.com";
 
 let token = "";
 let musculoActual = "";
