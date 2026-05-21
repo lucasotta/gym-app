@@ -9,10 +9,8 @@ const entrenamientoRoutes = require("./routes/entrenamientos");
 
 const app = express();
 
-// DB
 conectarDB();
 
-// ✅ CORS robusto
 const allowedOrigins = [
   "https://gimnasioregistro.netlify.app",
   "https://www.gimnasioregistro.netlify.app",
@@ -23,27 +21,20 @@ const allowedOrigins = [
 const corsOptions = {
   origin: (origin, callback) => {
     if (!origin) return callback(null, true);
-
-    if (
-      allowedOrigins.includes(origin) ||
-      origin.endsWith(".netlify.app")
-    ) {
+    if (allowedOrigins.includes(origin) || origin.endsWith(".netlify.app")) {
       return callback(null, true);
     }
-
     return callback(null, false);
   },
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 };
 
 app.use(cors(corsOptions));
-// preflight explícito para todas las rutas (Express 5 friendly)
-app.options(/.*/, cors(corsOptions));
+app.options(/.*/, cors(corsOptions)); // Express 5 compatible preflight
 
 app.use(express.json());
 
-// rutas
 app.use("/auth", authRoutes);
 app.use("/musculos", musculoRoutes);
 app.use("/entrenamientos", entrenamientoRoutes);
