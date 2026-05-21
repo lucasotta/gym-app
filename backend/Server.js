@@ -15,17 +15,25 @@ conectarDB();
 // ✅ CORS correcto para Netlify + local
 const allowedOrigins = [
   "https://gimnasioregistro.netlify.app",
+  "https://www.gimnasioregistro.netlify.app",
   "http://localhost:5500",
   "http://127.0.0.1:5500"
 ];
 
-// middlewares
 app.use(cors({
-  origin: function (origin, callback) {
-    // permitir requests sin origin (postman/mobile/etc)
+  origin: (origin, callback) => {
+    // requests sin origin (Postman, cURL, apps móviles)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) return callback(null, true);
-    return callback(new Error("Not allowed by CORS"));
+
+    if (
+      allowedOrigins.includes(origin) ||
+      origin.endsWith(".netlify.app")
+    ) {
+      return callback(null, true);
+    }
+
+    // importante: no tirar Error acá
+    return callback(null, false);
   },
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
